@@ -1,5 +1,11 @@
 package simpleserver;
 
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import java.io.BufferedReader;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -11,6 +17,19 @@ class SimpleServer {
     ServerSocket ding;
     Socket dong = null;
     String resource = null;
+    //json
+    Gson gson = new Gson();
+    BufferedReader br;
+    try {
+      br = new BufferedReader(new FileReader("src/data.json"));
+      JsonParser jsonParser = new JsonParser();
+      JsonObject obj = jsonParser.parse(br).getAsJsonObject();
+      //make a new usr class
+
+      User[] users = gson.fromJson(obj.get("users"), User[].class);
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    }
     try {
       ding = new ServerSocket(1299);
       System.out.println("Opened socket " + 1299);
@@ -31,7 +50,9 @@ class SimpleServer {
           // read the first line to get the request method, URI and HTTP version
           String line = in.readLine();
           System.out.println("----------REQUEST START---------");
-          System.out.println(line);
+          System.out.println(line); //parse and return method and parameters
+          //take the methods and returns and find out which one of those to call.
+          //last person does the builder.
           // read only headers
           line = in.readLine();
           while (line != null && line.trim().length() > 0) {
@@ -62,6 +83,7 @@ class SimpleServer {
 
         // Body of our response
         writer.println("{\"hello\" : \"world\"}");
+        writer.println("Hello");
 
         dong.close();
       }
