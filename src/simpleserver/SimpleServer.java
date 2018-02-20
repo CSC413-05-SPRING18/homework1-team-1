@@ -17,11 +17,10 @@ class SimpleServer {
     ServerSocket ding;
     Socket dong = null;
     String resource = null;
-    //json
     Gson gson = new Gson();
     BufferedReader br;
     User[] users = null;
-    //list[]
+
     try {
       br = new BufferedReader(new FileReader("src/data.json"));
       JsonParser jsonParser = new JsonParser();
