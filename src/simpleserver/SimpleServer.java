@@ -20,13 +20,15 @@ class SimpleServer {
     //json
     Gson gson = new Gson();
     BufferedReader br;
+    User[] users = null;
     try {
       br = new BufferedReader(new FileReader("src/data.json"));
       JsonParser jsonParser = new JsonParser();
       JsonObject obj = jsonParser.parse(br).getAsJsonObject();
       //make a new usr class
 
-      User[] users = gson.fromJson(obj.get("users"), User[].class);
+      users = gson.fromJson(obj.get("users"), User[].class);
+      User.loadAll();
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
@@ -82,8 +84,10 @@ class SimpleServer {
 
 
         // Body of our response
-        writer.println("{\"hello\" : \"world\"}");
-        writer.println("Hello");
+       //Response response = new Response("Ok", users.length, users);
+        //writer.println(gson.toJson(users));
+        writer.println(gson.toJson(User.getUser(0)));
+
 
         dong.close();
       }
