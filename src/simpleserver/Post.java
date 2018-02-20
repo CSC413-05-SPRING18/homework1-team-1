@@ -3,7 +3,7 @@ package simpleserver;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Post {
+public class Post extends Data {
     private final static Map<Integer, Post> postidDict = new HashMap<>();
 
     private final int postid;
