@@ -21,6 +21,7 @@ class SimpleServer {
     Gson gson = new Gson();
     BufferedReader br;
     User[] users = null;
+
     try {
       br = new BufferedReader(new FileReader("src/data.json"));
       JsonParser jsonParser = new JsonParser();
