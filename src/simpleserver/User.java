@@ -44,7 +44,7 @@ public class User extends Data{
 
     public static void loadAll(){
         for(int i = 0 ; i < allUsers.size(); i++){
-            allUsers.get(0).register();
+            allUsers.get(i).register();
         }
     }
 }

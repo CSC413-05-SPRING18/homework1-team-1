@@ -85,9 +85,31 @@ class SimpleServer {
 
 
         // Body of our response
-       //Response response = new Response("Ok", users.length, users);
-        //writer.println(gson.toJson(users));
-        writer.println(gson.toJson(User.getUser(0)));
+
+          String param1 = "users"; //replace param1 with the actual parsed parameter later
+          String param2 = "userid"; //replace param2 with the actual parsed parameter later
+          ResponseBuilder responseBuilder = new ResponseBuilder();
+          responseBuilder.setStatus(ResponseBuilder.StatusCode.OK);
+          if (param1 == "users") {
+            if(param2 == "userid") {
+              int id = 234;
+              responseBuilder.setData(User.getUser(id));
+          }
+            else
+            {
+              responseBuilder.setData(users);
+            }
+          }
+          Response response = responseBuilder.build();
+          //Response response = new Response("Ok", users.length, users);
+        //writer.println(gson.toJson(users[1]));
+        //writer.println(gson.toJson(User.getUser(234)));
+        writer.print("\"status\": ");
+        writer.println(gson.toJson(response.getStatusString()));
+        writer.print("\"entries\": ");
+        writer.println(gson.toJson(response.getEntries()));
+        writer.print("\"data\": ");
+        writer.println(gson.toJson(response.getData()));
 
 
         dong.close();

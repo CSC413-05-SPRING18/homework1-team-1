@@ -5,4 +5,27 @@ public class Response {
     private int entries;
     private Data[] data;
 
+    public Response(String status, int entries, Data[] data){
+        this.status = status;
+        this.entries = entries;
+        this.data = data;
+    }
+
+    public String getStatusString(){
+        return this.status;
+    }
+
+    public int getEntries() {
+        return this.entries;
+    }
+
+    public void setEntries(int entries) {
+        this.entries = entries;
+    }
+
+    public Data[] getData() {
+        return this.data;
+    }
+
+
 }
