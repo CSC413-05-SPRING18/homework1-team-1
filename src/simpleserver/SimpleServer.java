@@ -17,10 +17,12 @@ class SimpleServer {
     ServerSocket ding;
     Socket dong = null;
     String resource = null;
+    String mainRequestLine = null;
     //json
     Gson gson = new Gson();
     BufferedReader br;
     User[] users = null;
+    Post[] posts = null;
 
     try {
       br = new BufferedReader(new FileReader("src/data.json"));
@@ -29,6 +31,7 @@ class SimpleServer {
       //make a new usr class
 
       users = gson.fromJson(obj.get("users"), User[].class);
+      posts = gson.fromJson(obj.get("posts"), Post[].class);
       User.loadAll();
     } catch (FileNotFoundException e) {
       e.printStackTrace();
@@ -57,6 +60,8 @@ class SimpleServer {
           //take the methods and returns and find out which one of those to call.
           //last person does the builder.
           // read only headers
+          mainRequestLine = line;
+
           line = in.readLine();
           while (line != null && line.trim().length() > 0) {
             int index = line.indexOf(": ");
@@ -83,22 +88,48 @@ class SimpleServer {
         writer.println("Content-type: application/json");
         writer.println("");
 
+        //Parsing
+        String lineParts[] = mainRequestLine.split(" ");
+        String resourceString = lineParts[1];
+        String lineParts2[] = resourceString.split("\\?");
+        System.out.println(lineParts2.length);
+        String resourceString2 = null;
+        String lineParts3[] = null;
+        int id = -1;
+        if (lineParts2.length == 2) {
+          resourceString2 = lineParts2[1];
+          lineParts3 = resourceString2.split("=");
+        }
+
+
+
+
+
 
         // Body of our response
+          String param2 = null;
 
-          String param1 = "users"; //replace param1 with the actual parsed parameter later
-          String param2 = "userid"; //replace param2 with the actual parsed parameter later
+          String param1 = lineParts2[0]; //replace param1 with the actual parsed parameter later
+          if (lineParts2.length == 2) {
+            param2 = lineParts3[0]; //replace param2 with the actual parsed parameter later
+          }
           ResponseBuilder responseBuilder = new ResponseBuilder();
           responseBuilder.setStatus(ResponseBuilder.StatusCode.OK);
-          if (param1 == "users") {
-            if(param2 == "userid") {
-              int id = 234;
+          if (param1.equals("/user")) {
+            if(param2.equals("userid")) {
+              id = Integer.parseInt(lineParts3[1]);
               responseBuilder.setData(User.getUser(id));
           }
             else
             {
               responseBuilder.setData(users);
             }
+          }
+          else if (param1 == "posts") {
+            if(param2 == "postid") {
+
+            }
+
           }
           Response response = responseBuilder.build();
           //Response response = new Response("Ok", users.length, users);

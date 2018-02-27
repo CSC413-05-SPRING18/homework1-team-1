@@ -56,7 +56,7 @@ public class ResponseBuilder {
             data = new Data[0];
         }
             data = new Data[1];
-            data[1] = theData;
+            data[0] = theData;
 
     }
 
