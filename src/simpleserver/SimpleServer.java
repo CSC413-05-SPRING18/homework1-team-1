@@ -31,8 +31,9 @@ class SimpleServer {
       //make a new usr class
 
       users = gson.fromJson(obj.get("users"), User[].class);
-      posts = gson.fromJson(obj.get("posts"), Post[].class);
       User.loadAll();
+      posts = gson.fromJson(obj.get("posts"), Post[].class);
+      Post.loadAll();
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
