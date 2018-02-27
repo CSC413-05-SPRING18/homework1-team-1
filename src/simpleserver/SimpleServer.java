@@ -126,12 +126,7 @@ class SimpleServer {
               responseBuilder.setData(users);
             }
           }
-          else if (param1 == "posts") {
-            if(param2 == "postid") {
 
-            }
-
-          }
           Response response = responseBuilder.build();
           //Response response = new Response("Ok", users.length, users);
         //writer.println(gson.toJson(users[1]));
