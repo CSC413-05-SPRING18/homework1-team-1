@@ -61,6 +61,17 @@ public class ResponseBuilder {
         }
     }
 
+    public void setData(Post theData)
+    {
+        if (data == null) {
+            data = new Data[0];
+        }
+        data = new Data[1];
+        for (int i = 0; i < data.length; i++) {
+            data[i] = theData;
+        }
+    }
+
 
 }
 

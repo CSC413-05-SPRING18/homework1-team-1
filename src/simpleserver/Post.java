@@ -1,10 +1,12 @@
 package simpleserver;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Post extends Data {
     private final static Map<Integer, Post> postidDict = new HashMap<>();
+    private static ArrayList<Post> allPosts = new ArrayList<>();
 
     private final int postid;
     private final int userid;
@@ -19,5 +21,17 @@ public class Post extends Data {
 
     public static Post getPost(int postid){
         return postidDict.get(postid);
+    }
+
+
+
+    public void register(){
+        postidDict.put(postid, this);
+    }
+
+    public static void loadAll(){
+        for(int i = 0 ; i < allPosts.size(); i++){
+            allPosts.get(i).register();
+        }
     }
 }

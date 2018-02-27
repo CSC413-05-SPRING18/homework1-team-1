@@ -17,10 +17,10 @@ class SimpleServer {
     ServerSocket ding;
     Socket dong = null;
     String resource = null;
-    //json
     Gson gson = new Gson();
     BufferedReader br;
     User[] users = null;
+    Post[] posts = null;
 
     try {
       br = new BufferedReader(new FileReader("src/data.json"));
@@ -30,6 +30,10 @@ class SimpleServer {
 
       users = gson.fromJson(obj.get("users"), User[].class);
       User.loadAll();
+
+      ///****************
+      posts = gson.fromJson(obj.get("posts"), Post[].class);
+      Post.loadAll();
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
@@ -86,11 +90,20 @@ class SimpleServer {
 
         // Body of our response
 
-          String param1 = "users"; //replace param1 with the actual parsed parameter later
-          String param2 = "userid"; //replace param2 with the actual parsed parameter later
+        //Commented out to test POST
+        //String param1 = "users"; //replace param1 with the actual parsed parameter later
+        //String param2 = "userid"; //replace param2 with the actual parsed parameter later
+
+
+        //**********TESTING POST**************
+        String param3 = "posts"; //replace param1 with the actual parsed parameter later
+        String param4 = "postid";
+
+
           ResponseBuilder responseBuilder = new ResponseBuilder();
           responseBuilder.setStatus(ResponseBuilder.StatusCode.OK);
-          if (param1 == "users") {
+          //Commented out so that I could test post below
+        /*  if (param1 == "users") {
             if(param2 == "userid") {
               int id = 234;
               responseBuilder.setData(User.getUser(id));
@@ -101,6 +114,22 @@ class SimpleServer {
             }
           }
           Response response = responseBuilder.build();
+          */
+
+          //***************TESTING POST********************
+        if (param3 == "posts") {
+          if(param4 == "postid") {
+            int id = 0;
+            responseBuilder.setData(Post.getPost(id));
+          }
+          else
+          {
+            responseBuilder.setData(users);
+          }
+        }
+        Response response = responseBuilder.build();
+
+
           //Response response = new Response("Ok", users.length, users);
         //writer.println(gson.toJson(users[1]));
         //writer.println(gson.toJson(User.getUser(234)));
