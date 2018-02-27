@@ -13,7 +13,7 @@ import java.net.Socket;
 
 class SimpleServer {
 
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException { //change main to run
     ServerSocket ding;
     Socket dong = null;
     String resource = null;

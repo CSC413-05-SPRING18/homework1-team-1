@@ -50,15 +50,14 @@ public class ResponseBuilder {
             }
     }
 
-    public void setData(User theData)
+    public void setData(Data theData)
     {
         if (data == null) {
             data = new Data[0];
         }
             data = new Data[1];
-        for (int i = 0; i < data.length; i++) {
-            data[i] = theData;
-        }
+            data[1] = theData;
+
     }
 
 
