@@ -126,6 +126,15 @@ class SimpleServer {
               responseBuilder.setData(users);
             }
           }
+          else if (param1.equals("/posts")) {
+            if(param2.equals("postid")) {
+              id = Integer.parseInt(lineParts3[1]);
+              responseBuilder.setData(Post.getPost(id));
+            }
+            else {
+              responseBuilder.setData(posts);
+            }
+          }
 
           Response response = responseBuilder.build();
           //Response response = new Response("Ok", users.length, users);

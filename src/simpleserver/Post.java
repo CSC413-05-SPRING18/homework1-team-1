@@ -5,17 +5,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Post extends Data {
-    private final static Map<Integer, Post> postidDict = new HashMap<>();
+    private static Map<Integer, Post> postidDict = new HashMap<>();
     private static ArrayList<Post> allPosts = new ArrayList<>();
 
-    private final int postid;
-    private final int userid;
-    private final String data;
+    private int postid;
+    private int userid;
+    //private final String data;
 
-    public Post(int postid, int userid, String data){
+    public Post(int postid, int userid){
         this.postid = postid;
         this.userid = userid;
-        this.data = data;
+        //this.data = data;
         postidDict.put(postid, this);
     }
 
@@ -23,7 +23,9 @@ public class Post extends Data {
         return postidDict.get(postid);
     }
 
-
+    public Post(){
+        allPosts.add(this);
+    }
 
     public void register(){
         postidDict.put(postid, this);
@@ -34,4 +36,6 @@ public class Post extends Data {
             allPosts.get(i).register();
         }
     }
+
+
 }
