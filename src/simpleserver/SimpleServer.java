@@ -104,7 +104,7 @@ class SimpleServer {
 
 
         // Body of our response
-        String param2 = null;
+        String param2 = "";
 
         String param1 = lineParts2[0]; //replace param1 with the actual parsed parameter later
         if (lineParts2.length == 2) {
@@ -141,13 +141,13 @@ class SimpleServer {
 
 
           Response response = responseBuilder.build();
-        writer.print("\"status\": ");
-        writer.println(gson.toJson(response.getStatusString()));
-        writer.print("\"entries\": ");
-        writer.println(gson.toJson(response.getEntries()));
-        writer.print("\"data\": ");
-        writer.println(gson.toJson(response.getData()));
-
+        writer.print("{\"status\":");
+        writer.print(gson.toJson(response.getStatusString()));
+        writer.print(",\"entries\":");
+        writer.print(gson.toJson(response.getEntries()));
+        writer.print(",\"data\":");
+        writer.print(gson.toJson(response.getData()));
+        writer.println("}");
 
         dong.close();
       }

@@ -19,10 +19,6 @@ public class Response {
         return this.entries;
     }
 
-    public void setEntries(int entries) {
-        this.entries = entries;
-    }
-
     public Data[] getData() {
         return this.data;
     }

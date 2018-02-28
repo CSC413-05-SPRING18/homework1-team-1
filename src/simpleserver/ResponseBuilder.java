@@ -52,12 +52,8 @@ public class ResponseBuilder {
 
     public void setData(Data theData)
     {
-        if (data == null) {
-            data = new Data[0];
-        }
             data = new Data[1];
             data[0] = theData;
-
     }
 
 }
