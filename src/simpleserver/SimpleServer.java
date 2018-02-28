@@ -104,38 +104,41 @@ class SimpleServer {
 
 
         // Body of our response
-          String param2 = null;
+        String param2 = null;
 
-          String param1 = lineParts2[0]; //replace param1 with the actual parsed parameter later
-          if (lineParts2.length == 2) {
-            param2 = lineParts3[0]; //replace param2 with the actual parsed parameter later
+        String param1 = lineParts2[0]; //replace param1 with the actual parsed parameter later
+        if (lineParts2.length == 2) {
+          param2 = lineParts3[0]; //replace param2 with the actual parsed parameter later
+        }
+        ResponseBuilder responseBuilder = new ResponseBuilder();
+        responseBuilder.setStatus(ResponseBuilder.StatusCode.OK);
+
+
+        //if possible change all these codes to switch statements.
+        if (param1.equals("/user")) {
+          if (param2.equals("userid")) {
+            id = Integer.parseInt(lineParts3[1]);
+            responseBuilder.setData(User.getUser(id));
+          } else {
+            responseBuilder.setData(users);
           }
-          ResponseBuilder responseBuilder = new ResponseBuilder();
-          responseBuilder.setStatus(ResponseBuilder.StatusCode.OK);
-          if (param1.equals("/user")) {
-            if(param2.equals("userid")) {
-              id = Integer.parseInt(lineParts3[1]);
-              responseBuilder.setData(User.getUser(id));
+        } else if (param1.equals("/posts")) {
+          if (param2.equals("postid")) {
+            id = Integer.parseInt(lineParts3[1]);
+            responseBuilder.setData(Post.getPost(id));
+          } else if (param2.equals("userid")) {
+            id = Integer.parseInt(lineParts3[1]);
+            responseBuilder.setData(Post.getUser(id));
+          } else {
+            responseBuilder.setData(posts);
           }
-            else
-            {
-              responseBuilder.setData(users);
-            }
+        }
+        else
+          {
+            //maybe make an error case?
           }
-          else if (param1.equals("/posts")) {
-            if(param2.equals("postid")) {
-              id = Integer.parseInt(lineParts3[1]);
-              responseBuilder.setData(Post.getPost(id));
-            }
-            else if (param2.equals("userid"))
-            {
-              id = Integer.parseInt(lineParts3[1]);
-              responseBuilder.setData(Post.getUser(id));
-            }
-            else {
-              responseBuilder.setData(posts);
-            }
-          }
+
+
 
           Response response = responseBuilder.build();
         writer.print("\"status\": ");

@@ -29,7 +29,6 @@ public class Post extends Data {
         return useridDict.get(userid);
     }
 
-
     public Post(){
         allPosts.add(this);
     }
@@ -39,13 +38,14 @@ public class Post extends Data {
     }
 
     public void registerUser(){
-        postidDict.put(userid, this);
+        useridDict.put(userid, this);
     }
 
 
     public static void loadAll(){
         for(int i = 0 ; i < allPosts.size(); i++){
             allPosts.get(i).register();
+            allPosts.get(i).registerUser();
         }
     }
 
