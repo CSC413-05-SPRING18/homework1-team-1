@@ -103,10 +103,6 @@ class SimpleServer {
         }
 
 
-
-
-
-
         // Body of our response
           String param2 = null;
 
@@ -131,15 +127,17 @@ class SimpleServer {
               id = Integer.parseInt(lineParts3[1]);
               responseBuilder.setData(Post.getPost(id));
             }
+            else if (param2.equals("userid"))
+            {
+              id = Integer.parseInt(lineParts3[1]);
+              responseBuilder.setData(Post.getUser(id));
+            }
             else {
               responseBuilder.setData(posts);
             }
           }
 
           Response response = responseBuilder.build();
-          //Response response = new Response("Ok", users.length, users);
-        //writer.println(gson.toJson(users[1]));
-        //writer.println(gson.toJson(User.getUser(234)));
         writer.print("\"status\": ");
         writer.println(gson.toJson(response.getStatusString()));
         writer.print("\"entries\": ");
