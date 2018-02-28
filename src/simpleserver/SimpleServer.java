@@ -13,7 +13,20 @@ import java.net.Socket;
 
 class SimpleServer {
 
-  public static void main(String[] args) throws IOException { //change main to run
+  private static SimpleServer instance = null;
+
+  private SimpleServer(){
+
+  }
+
+  public static SimpleServer getInstance() {
+    if (instance == null) {
+      instance = new SimpleServer();
+    }
+    return instance;
+  }
+
+  public static void run() { //change main to run
     ServerSocket ding;
     Socket dong = null;
     String resource = null;
@@ -155,5 +168,11 @@ class SimpleServer {
       System.out.println("Error opening socket");
       System.exit(1);
     }
+  }
+  public static void main(String[] args){
+
+    SimpleServer instance=SimpleServer.getInstance();
+
+    instance.run();
   }
 }
