@@ -132,6 +132,9 @@ class SimpleServer {
           if (param2.equals("userid")) {
             id = Integer.parseInt(lineParts3[1]);
             responseBuilder.setData(User.getUser(id));
+           if (User.getUser(id)== null){
+             responseBuilder.setStatus(ResponseBuilder.StatusCode.ERROR_GENERAL);
+           }
           } else {
             responseBuilder.setData(users);
           }
@@ -139,9 +142,15 @@ class SimpleServer {
           if (param2.equals("postid")) {
             id = Integer.parseInt(lineParts3[1]);
             responseBuilder.setData(Post.getPost(id));
+           if(Post.getPost(id)== null){
+             responseBuilder.setStatus(ResponseBuilder.StatusCode.ERROR_GENERAL);
+           }
           } else if (param2.equals("userid")) {
             id = Integer.parseInt(lineParts3[1]);
             responseBuilder.setData(Post.getUser(id));
+           if(Post.getUser(id)== null){
+             responseBuilder.setStatus(ResponseBuilder.StatusCode.ERROR_GENERAL);
+           }
           } else {
             responseBuilder.setData(posts);
           }
@@ -149,6 +158,7 @@ class SimpleServer {
         else
           {
             //maybe make an error case?
+            responseBuilder.setStatus(ResponseBuilder.StatusCode.ERROR_GENERAL);
           }
 
 
