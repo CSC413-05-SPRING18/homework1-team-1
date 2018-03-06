@@ -7,20 +7,9 @@ import java.util.Map;
 public class User extends Data{
 
     private  static Map<Integer, User> useridDict = new HashMap<>();
-    private  static Map<String, User> usernameDict = new HashMap<>();
     private static ArrayList<User> allUsers = new ArrayList<>();
 
-    public void setUsername(String username) {
-        this.username = username;
-        System.out.println(username);
-    }
-
     private  String username;
-
-    public void setUserid(int userid) {
-        this.userid = userid;
-        System.out.println(userid);
-    }
 
     private  int userid;
 

@@ -8,6 +8,8 @@ public class Post extends Data {
     private static Map<Integer, Post> postidDict = new HashMap<>();
     private static Map<Integer, Post> useridDict = new HashMap<>();
     private static ArrayList<Post> allPosts = new ArrayList<>();
+
+
     //searching in terms of postid working now. Need to fix searching in terms of userid
 
     private int postid;

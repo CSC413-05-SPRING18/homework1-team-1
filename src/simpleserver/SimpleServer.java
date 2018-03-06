@@ -31,7 +31,6 @@ class SimpleServer {
     Socket dong = null;
     String resource = null;
     String mainRequestLine = null;
-    //json
     Gson gson = new Gson();
     BufferedReader br;
     User[] users = null;
@@ -41,8 +40,6 @@ class SimpleServer {
       br = new BufferedReader(new FileReader("src/data.json"));
       JsonParser jsonParser = new JsonParser();
       JsonObject obj = jsonParser.parse(br).getAsJsonObject();
-      //make a new usr class
-
       users = gson.fromJson(obj.get("users"), User[].class);
       User.loadAll();
       posts = gson.fromJson(obj.get("posts"), Post[].class);
@@ -102,64 +99,41 @@ class SimpleServer {
         writer.println("Content-type: application/json");
         writer.println("");
 
-        //Parsing
-        String lineParts[] = mainRequestLine.split(" ");
-        String resourceString = lineParts[1];
-        String lineParts2[] = resourceString.split("\\?");
-        System.out.println(lineParts2.length);
-        String resourceString2 = null;
-        String lineParts3[] = null;
-        int id = -1;
-        if (lineParts2.length == 2) {
-          resourceString2 = lineParts2[1];
-          lineParts3 = resourceString2.split("=");
-        }
 
+        Parse parseUrl = new Parse(mainRequestLine);
 
-        // Body of our response
-        String param2 = "";
+        int id = parseUrl.getId();
+        boolean doWeHaveSecondParameter = parseUrl.doWeHaveSecondParameter();
+        boolean isOurIntValid = parseUrl.isOurIntValid();
 
-        String param1 = lineParts2[0]; //replace param1 with the actual parsed parameter later
-        if (lineParts2.length == 2) {
-          param2 = lineParts3[0]; //replace param2 with the actual parsed parameter later
-        }
         ResponseBuilder responseBuilder = new ResponseBuilder();
         responseBuilder.setStatus(ResponseBuilder.StatusCode.OK);
 
 
-        //if possible change all these codes to switch statements.
-        if (param1.equals("/user")) {
-          if (param2.equals("userid")) {
-            id = Integer.parseInt(lineParts3[1]);
-            responseBuilder.setData(User.getUser(id));
-           if (User.getUser(id)== null){
-             responseBuilder.setStatus(ResponseBuilder.StatusCode.ERROR_GENERAL);
-           }
-          } else {
-            responseBuilder.setData(users);
-          }
-        } else if (param1.equals("/posts")) {
-          if (param2.equals("postid")) {
-            id = Integer.parseInt(lineParts3[1]);
-            responseBuilder.setData(Post.getPost(id));
-           if(Post.getPost(id)== null){
-             responseBuilder.setStatus(ResponseBuilder.StatusCode.ERROR_GENERAL);
-           }
-          } else if (param2.equals("userid")) {
-            id = Integer.parseInt(lineParts3[1]);
-            responseBuilder.setData(Post.getUser(id));
-           if(Post.getUser(id)== null){
-             responseBuilder.setStatus(ResponseBuilder.StatusCode.ERROR_GENERAL);
-           }
-          } else {
-            responseBuilder.setData(posts);
-          }
-        }
-        else
+
+
+            if( parseUrl.getFirstParameter().equals("/user")) {
+              if (doWeHaveSecondParameter) {
+                firstParameterOptions(doWeHaveSecondParameter, parseUrl, isOurIntValid, responseBuilder, users, id);
+
+              } else {
+                responseBuilder.setData(users);
+
+              }
+
+            }
+          if (parseUrl.getFirstParameter().equals("/posts"))
           {
-            //maybe make an error case?
-            responseBuilder.setStatus(ResponseBuilder.StatusCode.ERROR_GENERAL);
-          }
+                  if(doWeHaveSecondParameter)
+                  {
+                  firstParameterOptions(doWeHaveSecondParameter,parseUrl,isOurIntValid,responseBuilder,users,id);
+
+                  }
+                    else{
+                      responseBuilder.setData(posts);
+
+                   }
+           }
 
 
 
@@ -179,6 +153,38 @@ class SimpleServer {
       System.exit(1);
     }
   }
+
+  public static void firstParameterOptions(boolean doWeHaveSecondParameter, Parse parseUrl, boolean isOurIntValid, ResponseBuilder responseBuilder, User[] users, int id)
+  {
+    if(doWeHaveSecondParameter) {
+      if (parseUrl.getSecondParameter().equals("userid")) {
+        if (isOurIntValid) {
+          responseBuilder.setData(User.getUser(id));
+        }
+        if (!isOurIntValid) {
+          responseBuilder.setStatus(ResponseBuilder.StatusCode.ERROR_GENERAL);
+        }
+
+
+      }
+
+      if (parseUrl.getSecondParameter().equals("postid")) {
+        if (isOurIntValid) {
+          responseBuilder.setData(Post.getPost(id));
+        }
+        if (!isOurIntValid) {
+          responseBuilder.setStatus(ResponseBuilder.StatusCode.ERROR_GENERAL);
+        }
+      }
+
+    }
+
+
+  }
+
+
+
+
   public static void main(String[] args){
 
     SimpleServer instance=SimpleServer.getInstance();
