@@ -126,8 +126,18 @@ class SimpleServer {
           {
                   if(doWeHaveSecondParameter)
                   {
-                  firstParameterOptions(doWeHaveSecondParameter,parseUrl,isOurIntValid,responseBuilder,users,id);
-
+                    if(parseUrl.getSecondParameter().equals("userid"))
+                    {
+                      if (isOurIntValid) {
+                        responseBuilder.setData(Post.getUser(id));
+                      }
+                      if (!isOurIntValid) {
+                        responseBuilder.setStatus(ResponseBuilder.StatusCode.ERROR_GENERAL);
+                      }
+                    }
+                    else {
+                      firstParameterOptions(doWeHaveSecondParameter, parseUrl, isOurIntValid, responseBuilder, users, id);
+                    }
                   }
                     else{
                       responseBuilder.setData(posts);
@@ -176,6 +186,8 @@ class SimpleServer {
           responseBuilder.setStatus(ResponseBuilder.StatusCode.ERROR_GENERAL);
         }
       }
+
+
 
     }
 
